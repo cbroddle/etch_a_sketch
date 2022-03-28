@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Etch-A-Sketch</title>
+  <meta charset="UTF-8"/>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class='section'>
+        <h1>Etch-A-Sketch</h1>
+        <div class='buttons' id='buttons'></div>
+        <div class='container' id='container'></div>
+        
+    </div>
+    </body>
+<script>
+    //create width of grid
+    const xDiv = 0; //squares wide
+    const yDiv = 0; //squares long
+    const container = document.querySelector('.container');
+    const section = document.querySelector('.section');
+    const btnReset = document.createElement('button');
+    const buttonsContainer = document.querySelector('.buttons');
+    //loop x and y to create grid
+    function createGrid(xDiv, yDiv) {
+        for (let i = 0; i < (xDiv * yDiv); i++) {
+            //create single div
+            const div = document.createElement('div');
+            div.style.border = '1px solid black'
+            container.style.gridTemplateColumns = `repeat(${xDiv}, 1fr)`;
+            container.style.gridTemplateRows = `repeat(${yDiv}, 1fr)`;
+            container.appendChild(div).classList.add('box')
+        }
+    }
+
+    createGrid(16,16);
+
+    function drawBlack() {
+        const boxs = container.querySelectorAll('.box')
+        boxs.forEach(box => box.addEventListener('mouseover', () => {
+            box.style.background = 'black'
+        }))
+    }
+
+    drawBlack();
+
+    function clear() {
+        const boxs = container.querySelectorAll('.box')
+        boxs.forEach(box => {
+            box.remove();
+        })
+    }
+
+    function reSet() {
+        btnReset.textContent = 'Reset';
+        btnReset.addEventListener('click', () => {
+            let user = prompt('Enter Grid Size: ')
+            if(user < 10 || user > 100){
+                clear()
+                createGrid(10,10);
+                drawBlack();
+            } else {
+                clear()
+                createGrid(user,user);
+                drawBlack();
+            }
+        })
+        buttonsContainer.appendChild(btnReset).classList.add('btn')
+            
+    }
+
+    reSet();
+    
+</script>
+</html>
